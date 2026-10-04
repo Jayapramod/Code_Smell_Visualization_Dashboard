@@ -2,6 +2,7 @@
 
 :root {
   --bg: #f7f8fa;
+
   --surface: #ffffff;
   --surface-secondary: #f8f9fa;
 
@@ -12,14 +13,15 @@
   --border: #e2e5e8;
   --border-light: #eef0f2;
 
-  --button-bg: #17191c;
-  --button-text: #ffffff;
+  --accent: #17191c;
+  --accent-text: #ffffff;
 
   --icon-bg: #f1f2f4;
 }
 
 .app.dark {
   --bg: #0d0f12;
+
   --surface: #15181c;
   --surface-secondary: #1b1f24;
 
@@ -30,8 +32,8 @@
   --border: #292e35;
   --border-light: #22272d;
 
-  --button-bg: #f1f3f5;
-  --button-text: #101214;
+  --accent: #f1f3f5;
+  --accent-text: #101214;
 
   --icon-bg: #242930;
 }
@@ -82,7 +84,9 @@ input {
 ========================= */
 
 .header {
-  height: 72px;
+  width: 100%;
+  min-height: 72px;
+
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 
@@ -90,7 +94,9 @@ input {
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 6%;
+  padding: 0 clamp(20px, 4vw, 64px);
+
+  color: var(--text);
 
   transition:
     background 0.25s ease,
@@ -123,8 +129,8 @@ input {
 .brand h1 {
   font-size: 16px;
   font-weight: 700;
+  color: var(--text);
 }
-
 .brand p {
   color: var(--text-secondary);
   font-size: 11px;
@@ -152,8 +158,10 @@ input {
 ========================= */
 
 .container {
-  width: min(1200px, 92%);
-  margin: auto;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 64px);
 }
 
 /* =========================
@@ -161,8 +169,8 @@ input {
 ========================= */
 
 .hero {
-  padding: 75px 0 40px;
-  max-width: 760px;
+  padding: clamp(45px, 7vw, 90px) 0 40px;
+  max-width: 850px;
 }
 
 .eyebrow,
@@ -174,10 +182,10 @@ input {
 }
 
 .hero h1 {
-  font-size: clamp(40px, 6vw, 68px);
+  font-size: clamp(38px, 6vw, 72px);
   line-height: 1.05;
-  letter-spacing: -3px;
-  margin-top: 14px;
+  letter-spacing: clamp(-3px, -0.25vw, -1px);
+  color: var(--text);
 }
 
 .hero h1 span {
@@ -389,7 +397,7 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: end;
-
+  
   margin-bottom: 18px;
 }
 
@@ -471,7 +479,7 @@ section {
 ========================= */
 
 .summary-card {
-  background: #ffffff;
+  background: var(--surface);
   border: 1px solid #e1e4e7;
 
   border-radius: 10px;
@@ -491,8 +499,8 @@ section {
   flex-shrink: 0;
 
   background: #17191c;
-  color: white;
-
+  color: var(--text-secondary);
+  color: var(--text);
   border-radius: 7px;
 
   display: flex;
