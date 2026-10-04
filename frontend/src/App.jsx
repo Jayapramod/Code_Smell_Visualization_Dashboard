@@ -501,7 +501,7 @@ function App() {
 
             {/* Footer */}
             <footer>
-              <span>CodeLens</span>
+              <span>Code Smell Vizualisation dashboard</span>
               <span>Repository analysis dashboard</span>
             </footer>
           </>
