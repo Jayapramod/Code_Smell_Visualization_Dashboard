@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 
+
 const initialMetrics = {
   totalFiles: 142,
   loc: 28491,
@@ -109,7 +110,7 @@ function App() {
   const [repoUrl, setRepoUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [analyzed, setAnalyzed] = useState(false);
-
+  const [darkMode, setDarkMode] = useState(false);
   const handleAnalyze = () => {
     if (!repoUrl.trim()) {
       alert("Please enter a repository URL.");
@@ -127,7 +128,7 @@ function App() {
   };
 
   return (
-    <div className="app">
+    <div className={`app ${darkMode ? "dark" : "light"}`}>
       {/* Header */}
       <header className="header">
         <div className="brand">
@@ -139,9 +140,25 @@ function App() {
           </div>
         </div>
 
-        <div className="header-status">
-          <span className="status-dot"></span>
-          Analyzer Online
+        <div className="header-actions">
+          <button
+            className="theme-toggle"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle dark mode"
+          >
+            <span className="theme-icon">
+              {darkMode ? "☀" : "☾"}
+            </span>
+
+            <span>
+              {darkMode ? "Light" : "Dark"}
+            </span>
+          </button>
+
+          <div className="header-status">
+            <span className="status-dot"></span>
+            Analyzer Online
+          </div>
         </div>
       </header>
 

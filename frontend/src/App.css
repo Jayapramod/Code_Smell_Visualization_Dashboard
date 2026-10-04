@@ -1,5 +1,41 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap");
 
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-secondary: #f8f9fa;
+
+  --text: #17191c;
+  --text-secondary: #6b7179;
+  --text-muted: #8a9098;
+
+  --border: #e2e5e8;
+  --border-light: #eef0f2;
+
+  --button-bg: #17191c;
+  --button-text: #ffffff;
+
+  --icon-bg: #f1f2f4;
+}
+
+.app.dark {
+  --bg: #0d0f12;
+  --surface: #15181c;
+  --surface-secondary: #1b1f24;
+
+  --text: #f1f3f5;
+  --text-secondary: #a7adb5;
+  --text-muted: #777f89;
+
+  --border: #292e35;
+  --border-light: #22272d;
+
+  --button-bg: #f1f3f5;
+  --button-text: #101214;
+
+  --icon-bg: #242930;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,8 +44,8 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background: #f7f8fa;
-  color: #17191c;
+  background: var(--bg);
+  color: var(--text);
 }
 
 button,
@@ -19,6 +55,12 @@ input {
 
 .app {
   min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
 }
 
 /* =========================
@@ -27,14 +69,18 @@ input {
 
 .header {
   height: 72px;
-  border-bottom: 1px solid #e6e8eb;
-  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   padding: 0 6%;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .brand {
@@ -66,7 +112,7 @@ input {
 }
 
 .brand p {
-  color: #777d86;
+  color: var(--text-secondary);
   font-size: 11px;
   margin-top: 2px;
 }
@@ -110,7 +156,7 @@ input {
   font-family: "DM Mono", monospace;
   font-size: 11px;
   letter-spacing: 1.4px;
-  color: #777d86;
+  color: var(--text-secondary);
 }
 
 .hero h1 {
@@ -121,7 +167,7 @@ input {
 }
 
 .hero h1 span {
-  color: #777d86;
+  color: var(--text-secondary);
 }
 
 .hero p {
@@ -141,7 +187,7 @@ input {
 }
 
 .repo-input-wrapper {
-  background: white;
+  background: var(--surface);
   border: 1px solid #dfe2e6;
 
   display: flex;
@@ -203,7 +249,7 @@ input {
 }
 
 .input-hint {
-  color: #8a9098;
+  color: var(--text-muted);
   font-size: 11px;
   margin-top: 9px;
 }
@@ -213,7 +259,7 @@ input {
 ========================= */
 
 .loading-card {
-  background: white;
+  background: var(--surface);
   border: 1px solid #e4e6e9;
 
   padding: 20px;
@@ -229,7 +275,7 @@ input {
 
 .loading-card p {
   font-size: 12px;
-  color: #777d86;
+  color: var(--text-secondary);
   margin-top: 5px;
 }
 
@@ -330,7 +376,7 @@ section {
 }
 
 .metric-card {
-  background: white;
+  background: var(--surface);
 
   border: 1px solid #e4e6e9;
 
@@ -359,7 +405,9 @@ section {
   align-items: center;
   justify-content: center;
 
-  background: #f1f2f4;
+  background: var(--icon-bg);
+  color: var(--text);
+
   border-radius: 6px;
 
   font-size: 14px;
@@ -439,7 +487,7 @@ section {
 
 .smell-type {
   border: 1px solid #e2e5e8;
-  background: white;
+  background: var(--surface);
 
   padding: 17px 19px;
 
@@ -471,7 +519,7 @@ section {
   border: 1px solid #e2e5e8;
   border-radius: 9px;
 
-  background: white;
+  background: var(--surface);
 }
 
 table {
@@ -484,9 +532,9 @@ table {
 th {
   text-align: left;
 
-  background: #f8f9fa;
+  background: var(--surface-secondary);
 
-  color: #7c828a;
+  color: var(--text-muted);
 
   font-family: "DM Mono", monospace;
 
@@ -498,17 +546,17 @@ th {
 
   padding: 14px 16px;
 
-  border-bottom: 1px solid #e4e6e9;
+  border-bottom: 1px solid var(--border);
 }
 
 td {
   padding: 16px;
 
-  border-bottom: 1px solid #eef0f2;
+  border-bottom: 1px solid var(--border-light);
 
   font-size: 12px;
 
-  color: #555b63;
+  color: var(--text-secondary);
 }
 
 tr:last-child td {
@@ -580,7 +628,7 @@ tr:last-child td {
 }
 
 .complexity-card {
-  background: white;
+  background: var(--surface);
   border: 1px solid #e2e5e8;
 
   padding: 22px;
@@ -589,7 +637,7 @@ tr:last-child td {
 }
 
 .complexity-card span {
-  color: #777d86;
+  color: var(--text-secondary);
   font-size: 11px;
 }
 
@@ -655,7 +703,7 @@ tr:last-child td {
 ========================= */
 
 .empty-state {
-  background: white;
+  background: var(--surface);
 
   border: 1px dashed #d9dde1;
 
@@ -681,7 +729,7 @@ tr:last-child td {
 }
 
 .empty-state p {
-  color: #777d86;
+  color: var(--text-secondary);
 
   font-size: 13px;
 
@@ -783,4 +831,38 @@ footer {
     flex-direction: column;
     gap: 8px;
   }
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  border: 1px solid var(--border);
+  background: var(--surface);
+
+  color: var(--text);
+
+  padding: 7px 11px;
+  border-radius: 7px;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-secondary);
+}
+
+.theme-icon {
+  font-size: 15px;
+  line-height: 1;
 }
