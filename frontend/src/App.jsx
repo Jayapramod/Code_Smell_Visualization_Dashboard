@@ -135,8 +135,7 @@ function App() {
           <div className="brand-logo">&lt;/&gt;</div>
 
           <div>
-            <h1>CodeLens</h1>
-            <p>Repository Code Analyzer</p>
+            <h1>Code Smell Vizualisation dashboard</h1>
           </div>
         </div>
 
