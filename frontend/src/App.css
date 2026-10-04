@@ -188,7 +188,7 @@ input {
 
 .repo-input-wrapper {
   background: var(--surface);
-  border: 1px solid #dfe2e6;
+  border: 1px solid var(--border);
 
   display: flex;
   align-items: center;
@@ -197,6 +197,33 @@ input {
   border-radius: 10px;
 
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.repo-input-wrapper input {
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--text);
+
+  font-size: 14px;
+
+  padding: 14px 10px;
+}
+
+.repo-input-wrapper input::placeholder {
+  color: var(--text-muted);
+}
+
+.repo-input-wrapper input:focus {
+  outline: none;
+  color: var(--text);
 }
 
 .input-icon {
