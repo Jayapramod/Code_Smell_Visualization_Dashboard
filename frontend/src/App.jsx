@@ -108,24 +108,54 @@ function SeverityBadge({ severity }) {
 
 function App() {
   const [repoUrl, setRepoUrl] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [analyzed, setAnalyzed] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const handleAnalyze = () => {
-    if (!repoUrl.trim()) {
-      alert("Please enter a repository URL.");
-      return;
+const handleAnalyze = async () => {
+  setError("");
+
+  if (!repoUrl.trim()) {
+    setError("Please enter a GitHub repository URL.");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/analyze",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          repository_url: repoUrl.trim(),
+          branch: "main",
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.detail || "Failed to analyze repository."
+      );
     }
 
-    setLoading(true);
-    setAnalyzed(false);
+    console.log("Backend response:", data);
 
-    // Mock API call
-    setTimeout(() => {
-      setLoading(false);
-      setAnalyzed(true);
-    }, 1500);
-  };
+    setAnalysisData(data.analysis);
+
+  } catch (err) {
+    console.error("Analysis error:", err);
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className={`app ${darkMode ? "dark" : "light"}`}>
@@ -179,9 +209,11 @@ function App() {
           </div>
         </section>
 
+
         {/* Repository Input */}
         <section className="repo-section">
           <div className="repo-input-wrapper">
+
             <div className="input-icon">⌘</div>
 
             <input
@@ -198,8 +230,14 @@ function App() {
             >
               {loading ? "Analyzing..." : "Analyze Repository"}
             </button>
+
           </div>
 
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
           <div className="input-hint">
             Enter a public GitHub repository URL to start analysis.
           </div>

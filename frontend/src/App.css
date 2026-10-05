@@ -936,3 +936,9 @@ footer {
   font-size: 15px;
   line-height: 1;
 }
+.error-message {
+  margin-top: 10px;
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+}
