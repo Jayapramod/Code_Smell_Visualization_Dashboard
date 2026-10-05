@@ -6,6 +6,7 @@ import tempfile
 import shutil
 import re
 from fastapi.middleware.cors import CORSMiddleware
+from analyzer.analyzer import analyze_repository
 
 app = FastAPI(
     title="CodeLens API",
@@ -131,7 +132,7 @@ def run_analyzer(repository_path: Path) -> dict:
 # ============================================================
 
 @app.post("/api/analyze")
-def analyze_repository(request: AnalyzeRequest):
+def analyze_repository_endpoint(request: AnalyzeRequest):
     """
     Clone a repository and analyze it.
 
@@ -192,9 +193,7 @@ def analyze_repository(request: AnalyzeRequest):
         # Run analyzer
         # ----------------------------------------------------
 
-        analysis_result = run_analyzer(
-            repository_path
-        )
+        analysis_result = analyze_repository(repository_path)
 
         # ----------------------------------------------------
         # Add repository information

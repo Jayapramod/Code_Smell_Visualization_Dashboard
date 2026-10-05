@@ -89,7 +89,7 @@ function MetricCard({ title, value, icon }) {
   return (
     <div className="metric-card">
       <div className="metric-icon">{icon}</div>
-
+    
       <div>
         <p className="metric-title">{title}</p>
         <h2>{value}</h2>
@@ -112,50 +112,53 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [analyzed, setAnalyzed] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-const handleAnalyze = async () => {
-  setError("");
+  const [analysisData, setAnalysisData] = useState(null);
+  const handleAnalyze = async () => {
+    setError("");
 
-  if (!repoUrl.trim()) {
-    setError("Please enter a GitHub repository URL.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const response = await fetch(
-      "http://127.0.0.1:8000/api/analyze",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          repository_url: repoUrl.trim(),
-          branch: "main",
-        }),
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.detail || "Failed to analyze repository."
-      );
+    if (!repoUrl.trim()) {
+      setError("Please enter a GitHub repository URL.");
+      return;
     }
 
-    console.log("Backend response:", data);
+    setLoading(true);
 
-    setAnalysisData(data.analysis);
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/analyze",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            repository_url: repoUrl.trim(),
+            branch: "main",
+          }),
+        }
+      );
 
-  } catch (err) {
-    console.error("Analysis error:", err);
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.detail || "Failed to analyze repository."
+        );
+      }
+
+      console.log("Backend response:", data);
+
+      setAnalysisData(data.analysis);
+      setAnalyzed(true);
+
+    } catch (err) {
+      console.error("Analysis error:", err);
+      setError(err.message);
+      setAnalyzed(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={`app ${darkMode ? "dark" : "light"}`}>
@@ -289,50 +292,50 @@ const handleAnalyze = async () => {
               <div className="metrics-grid">
                 <MetricCard
                   title="Total Files"
-                  value={initialMetrics.totalFiles}
-                  icon="📁"
-                />
-
-                <MetricCard
-                  title="Lines of Code"
-                  value={initialMetrics.loc.toLocaleString()}
-                  icon="⌘"
-                />
-
-                <MetricCard
-                  title="Total Code Smells"
-                  value={initialMetrics.totalSmells}
-                  icon="⚠"
-                />
-
-                <MetricCard
-                  title="Avg. Cyclomatic Complexity"
-                  value={initialMetrics.avgComplexity}
-                  icon="◎"
-                />
-
-                <MetricCard
-                  title="Maximum Complexity"
-                  value={initialMetrics.maxComplexity}
-                  icon="↗"
-                />
-
-                <MetricCard
-                  title="Files with Smells"
-                  value={initialMetrics.filesWithSmells}
+                  value={analysisData?.metrics?.totalFiles ?? 0}
                   icon="📄"
                 />
 
                 <MetricCard
+                  title="Lines of Code"
+                  value={analysisData?.metrics?.loc ?? 0}
+                  icon="📝"
+                />
+
+                <MetricCard
+                  title="Total Code Smells"
+                  value={analysisData?.metrics?.totalSmells ?? 0}
+                  icon="⚠️"
+                />
+
+                <MetricCard
+                  title="Average Complexity"
+                  value={analysisData?.metrics?.avgComplexity ?? 0}
+                  icon="📊"
+                />
+
+                <MetricCard
+                  title="Maximum Complexity"
+                  value={analysisData?.metrics?.maxComplexity ?? 0}
+                  icon="🔥"
+                />
+
+                <MetricCard
+                  title="Files with Smells"
+                  value={analysisData?.metrics?.filesWithSmells ?? 0}
+                  icon="📁"
+                />
+
+                <MetricCard
                   title="Functions Analyzed"
-                  value={initialMetrics.functionsAnalyzed}
+                  value={analysisData?.metrics?.functionsAnalyzed ?? 0}
                   icon="ƒ"
                 />
 
                 <MetricCard
                   title="Classes Analyzed"
-                  value={initialMetrics.classesAnalyzed}
-                  icon="C"
+                  value={analysisData?.metrics?.classesAnalyzed ?? 0}
+                  icon="{}"
                 />
               </div>
             </section>
