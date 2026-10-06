@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 
@@ -105,7 +105,54 @@ function SeverityBadge({ severity }) {
     </span>
   );
 }
+function BackendStatus() {
+  const [online, setOnline] = useState(false);
 
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/health"
+        );
+
+        if (response.ok) {
+          setOnline(true);
+        } else {
+          setOnline(false);
+        }
+      } catch (error) {
+        setOnline(false);
+      }
+    };
+
+    // Check backend immediately
+    checkBackend();
+
+    // Check every 5 seconds
+    const interval = setInterval(() => {
+      checkBackend();
+    }, 5000);
+
+    // Stop checking when component is removed
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div className="header-status">
+      <span
+        className={`status-dot ${
+          online ? "online" : "offline"
+        }`}
+      ></span>
+
+      <span>
+        {online ? "Analyzer Online" : "Analyzer Offline"}
+      </span>
+    </div>
+  );
+}
 function App() {
   const [repoUrl, setRepoUrl] = useState("");
   const [error, setError] = useState("");
@@ -187,10 +234,11 @@ function App() {
             </span>
           </button>
 
-          <div className="header-status">
-            <span className="status-dot"></span>
-            Analyzer Online
+          <div className="brand">
+            <h1>CodeLens</h1>
           </div>
+
+          <BackendStatus />
         </div>
       </header>
 
